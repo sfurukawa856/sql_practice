@@ -60,17 +60,24 @@ create table students(
     name char(10)
 );
 -- テーブル定義確認
-describe students;
+describe people;
 
 insert into students value (2, "ABCDE ");
 
 select * from students;
 alter table students modify name varchar(10);
 
-insert into people values(7, 'chris', '23', '2000-01-01');
+insert into people values(15, 'chris', '1', '2022-01-01');
+
 alter table people add age int after name;
 select distinct age from people order by age desc;
-select * from people limit 3,2;
 
+select * from people;
 
+-- 一文字一致
+select * from people where name like 'a____';
+
+-- 含む
+select * from people where age not in(23, 25);
+select * from people where id in(select age from people where age <10);
 
