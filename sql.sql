@@ -81,3 +81,26 @@ select * from people where name like 'a____';
 select * from people where age not in(23, 25);
 select * from people where id in(select age from people where age <10);
 
+select * from people;
+-- 最小値より大きい
+select * from people where id > any(select age from people where age <10);
+-- 最大値より小さい
+select * from people where id < any(select age from people where age <10);
+
+-- 最大値より大きい
+select * from people where id > all(select age from people where age <10);
+-- 最小値より小さい
+select * from people where id < all(select age from people where age > 1 and  age <10);
+
+-- nullの扱い
+select * from people where age in(8,9, null);    -- nullを取り出さない
+select * from people where age in(8,9) or age is null;
+select * from people where age not in(8,9, null);     -- nullはtrueでもfalseでもない真偽値となるのでいずれの値も取り出さない
+select * from people where age not in(8,9) and age is not null;
+-- ポイント：nullを使うときはis nullやis not nullを使うこと
+
+
+
+
+
+
