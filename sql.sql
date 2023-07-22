@@ -99,7 +99,15 @@ select * from people where age not in(8,9, null);     -- nullはtrueでもfalse�
 select * from people where age not in(8,9) and age is not null;
 -- ポイント：nullを使うときはis nullやis not nullを使うこと
 
+-- concat(文字連結)
+select * from people;
+select concat(name, '/	',age) from people;
 
+-- 日付に関する関数
+select * from people;
+select now(); -- 現在日時
+select curdate(); -- 日付
+select date_format(now(), "%Y/%m/%d %H:%i");
 
 
 
