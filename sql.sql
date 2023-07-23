@@ -26,7 +26,7 @@ create table people(
 drop table users;
 
 -- テーブル定義　確認
-describe users_table;
+describe people;
 
 -- テーブル名変更
 alter table users rename to users_table;
@@ -35,7 +35,7 @@ alter table users rename to users_table;
 alter table users_table drop column message;
 
 -- カラム追加
-alter table users_table add post_code char(8);
+alter table people add birth_place varchar(10);
 alter table users_table add gender char(1) after age;
 
 -- カラム追加(一番最初)
@@ -109,6 +109,76 @@ select now(); -- 現在日時
 select curdate(); -- 日付
 select date_format(now(), "%Y/%m/%d %H:%i");
 
+select * from people;
+select upper(name), length(name) from people;
+select name, char_length(name) from people;
 
+select replace("I like an apple", "apple", "orange");
 
+-- substring  一部取り出し
+select substr(name, 2, 5) from people;
 
+-- ランダム数字（0~1）
+select rand();
+select floor(rand()*10);
+
+-- べき乗
+select power(3, 4);
+
+-- coalesce(nullではない最初の値を返す)
+SELECT coalesce(null, null, 3, null, 5);
+
+select *, if(age>=18, '成人', '未成年') as '区分' from people;
+
+select
+  *,
+  case
+    when age >= 18 then '成人'
+    else '未成年'
+  end as '区分'
+from people;
+
+select birth_place,
+  case
+    when birth_place in('北海道', '岩手県', '青森県') then '東北地方'
+    when birth_place in('東京都', '千葉県', '静岡県') then '関東地方'
+    when birth_place in('石川県') then '北陸地方'
+    when birth_place in('福岡県', '沖縄県') then '九州地方'
+    when birth_place in('大阪府', '京都府', '愛知県') then '近畿地方'
+    else 'その他'
+  end as '地域名'
+from people;
+
+select birth_place, 
+case
+    when birth_place in('北海道', '岩手県', '青森県') then '東北地方'
+    when birth_place in('東京都', '千葉県', '静岡県') then '関東地方'
+    when birth_place in('石川県') then '北陸地方'
+    when birth_place in('福岡県', '沖縄県') then '九州地方'
+    when birth_place in('大阪府', '京都府', '愛知県') then '近畿地方'
+    else 'その他'
+end as '地域名'
+from people
+  order by
+  case
+    when birth_place in('北海道', '岩手県', '青森県') then 0
+    when birth_place in('東京都', '千葉県', '静岡県') then 1
+    when birth_place in('石川県') then 2
+    when birth_place in('福岡県', '沖縄県') then 3
+    when birth_place in('大阪府', '京都府', '愛知県') then 4
+    else 5
+  end;
+
+select * from people;
+alter table people add birth_era varchar(2) after birth_day;
+select *,
+  case
+    when date_format(birth_day, '%Y')<2018 then '平成'
+    else '令和'
+  end as '元号'
+from people;
+
+update people set birth_era = case
+    when date_format(birth_day, '%Y')<2018 then '平成'
+    else '令和'
+  end
